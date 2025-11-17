@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Component;
 
 import com.metafprestaurantexample.metafpreastaurant.domain.CreateRestaurantRequest;
-import com.metafprestaurantexample.metafpreastaurant.domain.Restaurant;
+import com.metafprestaurantexample.metafpreastaurant.entity.Restaurant;
 import com.metafprestaurantexample.metafpreastaurant.domain.RestaurantUpdateRequest;
 import com.metafprestaurantexample.metafpreastaurant.infrastructure.repositories.RestaurantRepository;
 

@@ -1,31 +1,37 @@
-package com.metafprestaurantexample.metafpreastaurant.domain;
+package com.metafprestaurantexample.metafpreastaurant.entity;
 
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "restaurant", schema = "restaurants" )
 public class Restaurant {
     @Id
     @Column(name = "res_id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     private UUID resId;
 
-    @Column(name = "name")
+    @NotBlank(message = "Restaurant name is required")
+    @Column(nullable = false )
     private String name;
 
-    @Column(name = "capacity")
+    @NotNull(message = "Capacity is required")
+    @Min(value = 1, message = "Capacity has to be at least one")
+    @Column(nullable = false )
     private int capacity;
 
-    @Column(name = "food_type")
+    @NotNull(message = "Food type is required")
+    @Column(name = "food_type", nullable = false)
     private String foodType;
+
+    @Column(nullable = false)
+    private int currentDiner=0;
 
     public Restaurant (String name , int capacity, String foodType){
         this.name = name;
@@ -69,4 +75,12 @@ public void setResId(UUID resId) {
 public void setName(String name) {
     this.name = name;
 }
+
+    public int getCurrentDiner() {
+        return currentDiner;
+    }
+
+    public void setCurrentDiner(int currentDiner) {
+        this.currentDiner = currentDiner;
+    }
 }
