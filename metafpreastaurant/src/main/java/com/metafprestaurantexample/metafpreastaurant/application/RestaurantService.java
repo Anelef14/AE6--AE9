@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Component;
 
-import com.metafprestaurantexample.metafpreastaurant.domain.CreateRestaurantRequest;
+import com.metafprestaurantexample.metafpreastaurant.dto.RestaurantDto;
 import com.metafprestaurantexample.metafpreastaurant.entity.Restaurant;
 import com.metafprestaurantexample.metafpreastaurant.domain.RestaurantUpdateRequest;
 import com.metafprestaurantexample.metafpreastaurant.infrastructure.repositories.RestaurantRepository;
@@ -22,18 +22,18 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public CreateRestaurantRequest createRestaurant (CreateRestaurantRequest createRestaurantRequest){
+    public RestaurantDto createRestaurant (RestaurantDto createRestaurantRequest){
         Restaurant restaurant = new Restaurant(createRestaurantRequest.getName(), createRestaurantRequest.getCapacity(), createRestaurantRequest.getFoodType());
         restaurantRepository.save(restaurant);
         return createRestaurantRequest;
     }
 
-    public CreateRestaurantRequest getRestaurant(String id) {
+    public RestaurantDto getRestaurant(String id) {
                 UUID resId = UUID.fromString(id);
         Optional<Restaurant> restaurantOptional = getRestaurantOptional(resId);
 
         Restaurant fetchedRestaurant = restaurantOptional.get();
-        CreateRestaurantRequest restaurant = new CreateRestaurantRequest(fetchedRestaurant.getName(), fetchedRestaurant.getCapacity(), fetchedRestaurant.getFoodType());
+        RestaurantDto restaurant = new RestaurantDto(fetchedRestaurant.getResId(), fetchedRestaurant.getName(), fetchedRestaurant.getCapacity(), fetchedRestaurant.getFoodType(), fetchedRestaurant.getCurrentDiner());
         return restaurant;
     }
 
@@ -45,19 +45,19 @@ public class RestaurantService {
         return restaurantOptional;
     }
 
-    public List<CreateRestaurantRequest> getAllRestaurants() {
+    public List<RestaurantDto> getAllRestaurants() {
         return restaurantRepository.findAll().stream()
-    .map(r -> new CreateRestaurantRequest(r.getName(), r.getCapacity(), r.getFoodType()))
+    .map(r -> new RestaurantDto(r.getResId(), r.getName(), r.getCapacity(), r.getFoodType(), r.getCurrentDiner()))
         .toList();
     }
 
-    public CreateRestaurantRequest updateRestaurant(UUID resId, RestaurantUpdateRequest updatedData){
+    public RestaurantDto updateRestaurant(UUID resId, RestaurantUpdateRequest updatedData){
         Optional <Restaurant> restaurantOptional = getRestaurantOptional(resId);
         Restaurant fetchedRestaurant = restaurantOptional.get();
         fetchedRestaurant.setCapacity(updatedData.getCapacity());
         fetchedRestaurant.setFoodType(updatedData.getFoodType());
         restaurantRepository.save(fetchedRestaurant);
-        CreateRestaurantRequest restaurant = new CreateRestaurantRequest(fetchedRestaurant.getName(), fetchedRestaurant.getCapacity(), fetchedRestaurant.getFoodType());
+        RestaurantDto restaurant = new RestaurantDto(fetchedRestaurant.getResId(), fetchedRestaurant.getName(), fetchedRestaurant.getCapacity(), fetchedRestaurant.getFoodType(), fetchedRestaurant.getCurrentDiner());
         return restaurant;
     }
 

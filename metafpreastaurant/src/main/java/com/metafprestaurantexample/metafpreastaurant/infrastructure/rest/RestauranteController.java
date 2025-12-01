@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.metafprestaurantexample.metafpreastaurant.application.RestaurantService;
 import com.metafprestaurantexample.metafpreastaurant.domain.APIResponse;
-import com.metafprestaurantexample.metafpreastaurant.domain.CreateRestaurantRequest;
+import com.metafprestaurantexample.metafpreastaurant.dto.RestaurantDto;
 import com.metafprestaurantexample.metafpreastaurant.domain.RestaurantUpdateRequest;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,28 +31,28 @@ public class RestauranteController {
     
     @PostMapping("/createRestaurant")
     @ResponseStatus(HttpStatus.CREATED)//201 instaed 200
-    public CreateRestaurantRequest createRestaurant(@RequestBody CreateRestaurantRequest restaurant){
-        return restaurantService.createRestaurant(restaurant);
+    public ResponseEntity<RestaurantDto>  createRestaurant(@RequestBody RestaurantDto restaurant){
+        return new ResponseEntity<>(restaurantService.createRestaurant(restaurant), HttpStatus.CREATED);
     }
 
     @GetMapping("/{resId}")
     @ResponseStatus(HttpStatus.OK)
-    public CreateRestaurantRequest getRestaurant(@PathVariable String resId){
-        return restaurantService.getRestaurant(resId);
+    public ResponseEntity<RestaurantDto> getRestaurant(@PathVariable String resId){
+        return new ResponseEntity<>(restaurantService.getRestaurant(resId), HttpStatus.OK);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CreateRestaurantRequest> getAllRestaurants() {
-        return restaurantService.getAllRestaurants();
+    public ResponseEntity <List<RestaurantDto>> getAllRestaurants() {
+        return new ResponseEntity<> (restaurantService.getAllRestaurants(), HttpStatus.OK);
     }
 
     @PutMapping("/{resId}")
     @ResponseStatus(HttpStatus.OK)
-    public CreateRestaurantRequest updateRestaurant(
+    public ResponseEntity <RestaurantDto >updateRestaurant(
             @PathVariable UUID resId,
             @RequestBody RestaurantUpdateRequest updatedData) {
-        return restaurantService.updateRestaurant(resId, updatedData);
+        return new ResponseEntity<> (restaurantService.updateRestaurant(resId, updatedData), HttpStatus.OK);
     }
 
     @DeleteMapping("/{resId}")
