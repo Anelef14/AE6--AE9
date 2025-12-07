@@ -6,14 +6,18 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.springframework.stereotype.Component;
+import jakarta.transaction.Transactional;
 
 import com.metafprestaurantexample.metafpreastaurant.dto.RestaurantDto;
 import com.metafprestaurantexample.metafpreastaurant.entity.Restaurant;
 import com.metafprestaurantexample.metafpreastaurant.domain.RestaurantUpdateRequest;
+import com.metafprestaurantexample.metafpreastaurant.domain.RestaurantCreateRequest;
 import com.metafprestaurantexample.metafpreastaurant.infrastructure.repositories.RestaurantRepository;
 
-@Component
+import org.springframework.stereotype.Service;
+
+@Service
+@Transactional
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
 
@@ -22,14 +26,14 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public RestaurantDto createRestaurant (RestaurantDto createRestaurantRequest){
-        Restaurant restaurant = new Restaurant(createRestaurantRequest.getName(), createRestaurantRequest.getCapacity(), createRestaurantRequest.getFoodType());
+    public RestaurantCreateRequest createRestaurant (RestaurantCreateRequest createRestaurantRequest){
+        Restaurant restaurant = new Restaurant(createRestaurantRequest.getName(), createRestaurantRequest.getCapacity(), createRestaurantRequest.getFoodType(), createRestaurantRequest.getCurrentDiners());
         restaurantRepository.save(restaurant);
         return createRestaurantRequest;
     }
 
     public RestaurantDto getRestaurant(String id) {
-                UUID resId = UUID.fromString(id);
+        UUID resId = UUID.fromString(id);
         Optional<Restaurant> restaurantOptional = getRestaurantOptional(resId);
 
         Restaurant fetchedRestaurant = restaurantOptional.get();

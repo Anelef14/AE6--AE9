@@ -19,6 +19,7 @@ import com.metafprestaurantexample.metafpreastaurant.application.RestaurantServi
 import com.metafprestaurantexample.metafpreastaurant.domain.APIResponse;
 import com.metafprestaurantexample.metafpreastaurant.dto.RestaurantDto;
 import com.metafprestaurantexample.metafpreastaurant.domain.RestaurantUpdateRequest;
+import com.metafprestaurantexample.metafpreastaurant.domain.RestaurantCreateRequest;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -31,7 +32,7 @@ public class RestauranteController {
     
     @PostMapping("/createRestaurant")
     @ResponseStatus(HttpStatus.CREATED)//201 instaed 200
-    public ResponseEntity<RestaurantDto>  createRestaurant(@RequestBody RestaurantDto restaurant){
+    public ResponseEntity<RestaurantCreateRequest>  createRestaurant(@RequestBody RestaurantCreateRequest restaurant){
         return new ResponseEntity<>(restaurantService.createRestaurant(restaurant), HttpStatus.CREATED);
     }
 
@@ -59,7 +60,7 @@ public class RestauranteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<APIResponse> deleteRestaurant(@PathVariable String resId){
         APIResponse response = new APIResponse();
-        response.setMessage("Restaurant deleted succesfully with Restaurant ID " + resId);
+        response.setMessage("Restaurant deleted successfully with Restaurant ID " + resId);
         restaurantService.deleteRestaurant(resId);
         return ResponseEntity.ok(response);
     }

@@ -7,35 +7,35 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "restaurants")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    @Column(name = "user_id")
+    private UUID userId;
 
-    @NotBlank(message = "name is required")
+    @NotBlank(message = "Name is required")
     @Column(nullable = false)
     private String name;
 
-    @NotBlank(message = "email is required")
-    @Email(message = "email should be valid")
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email should be valid")
     @Column(nullable = false, unique = true)
     private String email;
 
-    public User() {
-    }
+    public User(){}
 
     public User(String name, String email) {
+        this.userId = UUID.randomUUID();
         this.name = name;
         this.email = email;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getUserId() {
+        return userId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
     public String getName() {

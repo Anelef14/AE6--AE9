@@ -4,6 +4,8 @@ public class RestaurantUpdateRequest {
     private Integer capacity;
     private String foodType;
 
+    public RestaurantUpdateRequest () {}
+
     public Integer getCapacity() {
         return capacity;
     }

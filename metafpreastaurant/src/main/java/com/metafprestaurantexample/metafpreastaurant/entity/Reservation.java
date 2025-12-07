@@ -6,10 +6,10 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 @Entity
-@Table(name = "reservations")
+@Table(name = "reservations", schema = "restaurants")
 public class Reservation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "reservation_id")
     private UUID id;
 
     @NotNull(message = "User is required")
@@ -24,22 +24,21 @@ public class Reservation {
 
     @NotNull(message = "Number of diners is required")
     @Min(value = 1, message = "Number of diners should be at least 1")
-    @Column(name = "number_of_diners", nullable = false)
-    private Integer numberOfDiners;
+    @Column(nullable = false)
+    private Integer diners;
 
     @Column(nullable = false)
     private Boolean active = true;
 
-    public Reservation(User user, Restaurant restaurant, Integer numberOfDiners) {
+    public Reservation(User user, Restaurant restaurant, int diners) {
+        this.id = UUID.randomUUID();
         this.user = user;
         this.restaurant = restaurant;
-        this.numberOfDiners = numberOfDiners;
+        this.diners = diners;
+        this.active = true;
     }
 
-    public Reservation() {
-        this.active= true;
-
-    }
+    public Reservation() {}
 
     public UUID getId() {
         return id;
@@ -65,12 +64,12 @@ public class Reservation {
         this.restaurant = restaurant;
     }
 
-    public Integer getNumberOfDiners() {
-        return numberOfDiners;
+    public Integer getDiners() {
+        return diners;
     }
 
-    public void setNumberOfDiners(Integer numberOfDiners) {
-        this.numberOfDiners = numberOfDiners;
+    public void setDiners(Integer diners) {
+        this.diners = diners;
     }
 
     public Boolean getActive() {

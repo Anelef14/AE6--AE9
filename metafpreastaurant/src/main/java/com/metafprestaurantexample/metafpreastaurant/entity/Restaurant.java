@@ -14,7 +14,6 @@ import jakarta.validation.constraints.NotNull;
 public class Restaurant {
     @Id
     @Column(name = "res_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
     private UUID resId;
 
     @NotBlank(message = "Restaurant name is required")
@@ -33,15 +32,15 @@ public class Restaurant {
     @Column(nullable = false)
     private int currentDiner=0;
 
-    public Restaurant (String name , int capacity, String foodType){
+    public Restaurant (){}
+
+    public Restaurant (String name , int capacity, String foodType, int currentDiner){
+        this.resId = UUID.randomUUID();
         this.name = name;
         this.capacity = capacity;
         this.foodType = foodType;
+        this.currentDiner = currentDiner;
     }
-
-    public Restaurant() {}
-
-
 
 public int getCapacity() {
     return capacity;
